@@ -69,6 +69,19 @@ public class ClientRecive extends Thread {
 		case "refreshUsernameList":
 			refreshUsernameList((List<String>) responseDto.getBody());
 			break;
+
+		case "enterRoomSuccessfully":
+			ClientApplication.getInstance().getMainCard().show(ClientApplication.getInstance().getMainPanel(),
+					"roomPanel");
+			break;
+		case "reciveMessage":
+			ClientApplication.getInstance().getChattingContent().append((String) responseDto.getBody() + "\n");
+			break;
+
+		case "exitRoom":
+			ClientApplication.getInstance().getChattingContent().setText("");
+			ClientApplication.getInstance().getMainCard().show(ClientApplication.getInstance().getMainPanel(),
+					"roomListPanel");
 		default:
 			break;
 
@@ -83,12 +96,14 @@ public class ClientRecive extends Thread {
 			ClientApplication.getInstance().getRoomNameListModel().addElement(roomInfo.get("roomName"));
 
 		}
+		ClientApplication.getInstance().getRoomList().setSelectedIndex(0);
 
 	}
 
 	private void refreshUsernameList(List<String> usernameList) {
 		ClientApplication.getInstance().getUsernameListModel().clear();
 		ClientApplication.getInstance().getUsernameListModel().addAll(usernameList);
+		ClientApplication.getInstance().getJoinUserList().setSelectedIndex(0);
 
 	}
 
